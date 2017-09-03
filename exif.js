@@ -355,7 +355,7 @@
 
     function objectURLToBlob(url, callback) {
         var http = new XMLHttpRequest();
-        http.open("GET", url, true);
+        http.open("GET", img.src+"?cb="+new Date().getTime(), true)
         http.responseType = "blob";
         http.onload = function(e) {
             if (this.status == 200 || this.status === 0) {
@@ -378,14 +378,12 @@
             }
         }
         
-        var timeInMs = Date.now();
-        
         if (img.src) {
             if (/^data\:/i.test(img.src)) { // Data URI
                 var arrayBuffer = base64ToArrayBuffer(img.src);
                 handleBinaryFile(arrayBuffer);
 
-            } else if (/^blob\:/i.test(img.src)?timestamp=timeInMs) { // Object URL
+            } else if (/^blob\:/i.test(img.src)) { // Object URL
                 var fileReader = new FileReader();
                 fileReader.onload = function(e) {
                     handleBinaryFile(e.target.result);
@@ -403,7 +401,7 @@
                     }
                     http = null;
                 };
-                http.open("GET", img.src, true);
+                http.open("GET", img.src+"?cb="+new Date().getTime(), true)
                 http.responseType = "arraybuffer";
                 http.send(null);
             }

@@ -401,8 +401,9 @@
                     }
                     http = null;
                 };
-                http.open("GET", img.src+"?cb="+new Date().getTime(), true);
+                http.open("GET", img.src, true);
                 http.responseType = "arraybuffer";
+                http.setRequestHeader("Cache-Control", "no-cache");
                 http.send(null);
             }
         } else if (self.FileReader && (img instanceof self.Blob || img instanceof self.File)) {

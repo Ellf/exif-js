@@ -377,13 +377,15 @@
                 callback.call(img);
             }
         }
-
+        
+        var timeInMs = Date.now();
+        
         if (img.src) {
             if (/^data\:/i.test(img.src)) { // Data URI
                 var arrayBuffer = base64ToArrayBuffer(img.src);
                 handleBinaryFile(arrayBuffer);
 
-            } else if (/^blob\:/i.test(img.src)) { // Object URL
+            } else if (/^blob\:/i.test(img.src)?timestamp=timeInMs) { // Object URL
                 var fileReader = new FileReader();
                 fileReader.onload = function(e) {
                     handleBinaryFile(e.target.result);
